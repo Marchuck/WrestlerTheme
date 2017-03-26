@@ -7,6 +7,13 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.util.List;
 
 /**
  * Project "WrestlerTheme"
@@ -109,6 +116,69 @@ public class RxSucks {
             Log.e(TAG, "prepareFirst: ", c);
         }
     }
+//todo:
+    void combine(Context c) {
+        try {
+            FileInputStream fis1 = new FileInputStream("android.resource://" + c.getPackageName() + "/and_his_name_is.mp3");
+            FileInputStream fis2 = new FileInputStream("android.resource://" + c.getPackageName() + "/and_his_name_is.mp3");
+            FileInputStream fis3 = new FileInputStream("android.resource://" + c.getPackageName() + "/trumpets.mp3");
+            SequenceInputStream sis = new SequenceInputStream(fis1, fis2);
+            FileOutputStream fos = new FileOutputStream(new File("/sdcard/MJdangerousMJBad.wav"));
+
+            int temp;
+
+            try {
+                while ((temp = sis.read()) != -1) {
+
+                    fos.write(temp);
+
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+//    private void mixFiles(Context c) {
+//        try {
+//            InputStream is1 = c.getResources().openRawResource(R.raw.and_his_name_is);
+//            List<Short> music1 = createMusicArray(is1);
+//            InputStream is2 = c.getResources().openRawResource(R.raw.trumpets);
+//            List<Short> music2 = createMusicArray(is2);
+//
+//            completeStreams(music1, music2);
+//            short[] music1Array = buildShortArray(music1);
+//            short[] music2Array = buildShortArray(music2);
+//
+//            short[] output = new short[music1Array.length];
+//            for (int i = 0; i < output.length; i++) {
+//                float samplef1 = music1Array[i] / 32768.0f;
+//                float samplef2 = music2Array[i] / 32768.0f;
+//
+//                float mixed = samplef1 + samplef2;
+//// reduce the volume a bit:
+//                mixed *= 0.8;
+//// hard clipping
+//                if (mixed > 1.0f) mixed = 1.0f;
+//                if (mixed < -1.0f) mixed = -1.0f;
+//                short outputSample = (short) (mixed * 32768.0f);
+//                output[i] = outputSample;
+//            }
+//            saveToFile(output);
+//        } catch (NotFoundException e) {
+//// TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//// TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 
     public void playAll(Context c) {
 

@@ -18,6 +18,7 @@ import io.reactivex.functions.Function3;
 import io.reactivex.internal.operators.observable.ObservableGroupBy;
 import io.reactivex.internal.subscriptions.BooleanSubscription;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
@@ -31,8 +32,7 @@ import io.reactivex.subjects.Subject;
 public class Chain {
 
     static AtomicInteger ref = new AtomicInteger(0);
-    public static Subject<Boolean> preparation = PublishSubject.create();
-    public static Subject<Boolean> execution = PublishSubject.create();
+    public static Subject<Boolean> preparation = BehaviorSubject.create();
 
     public static final String TAG = Chain.class.getSimpleName();
 
@@ -49,42 +49,37 @@ public class Chain {
             @Override
             public ObservableSource<Boolean> apply(@NonNull Boolean aBoolean) throws Exception {
                 Log.d(TAG, "apply: ");
-                if (ref.incrementAndGet() == 3) {
-                    return _andTheNameIs.play()
-                            .flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
-                                @Override
-                                public ObservableSource<Boolean> apply(@NonNull Boolean aBoolean) throws Exception {
-                                    Log.d(TAG, "apply: cena");
-                                    return _cena.play();
-                                }
-                            }).flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
-                                @Override
-                                public ObservableSource<Boolean> apply(@NonNull Boolean aBoolean) throws Exception {
-                                    Log.d(TAG, "apply: tr");
-                                    return _trumpets.play();
-                                }
-                            });
-
-                } else {
-                    return Observable.empty();
-                }
+                return _andTheNameIs.play();
             }
-        }).subscribeWith(new DisposableObserver<Boolean>() {
+        }).flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
             @Override
-            public void onNext(Boolean o) {
-                Log.d(TAG, "onNext: ");
+            public ObservableSource<Boolean> apply(@NonNull Boolean aBoolean) throws Exception {
+                Log.d(TAG, "apply: cena");
+                return _cena.play();
             }
-
+        }).flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
             @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "onError: ", e);
+            public ObservableSource<Boolean> apply(@NonNull Boolean aBoolean) throws Exception {
+                Log.d(TAG, "apply: tr");
+                return _trumpets.play();
             }
+        })
+                .subscribeWith(new DisposableObserver<Boolean>() {
+                    @Override
+                    public void onNext(Boolean o) {
+                        Log.d(TAG, "onNext: ");
+                    }
 
-            @Override
-            public void onComplete() {
-                Log.d(TAG, "onComplete: ");
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: ", e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
         ;
     }
 }
