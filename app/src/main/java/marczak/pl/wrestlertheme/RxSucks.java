@@ -42,7 +42,8 @@ public class RxSucks {
             andTheName.setVolume(1, 1);
             andTheName.setAudioStreamType(AudioManager.STREAM_MUSIC);
             andTheName.setLooping(false);
-            andTheName.prepareAsync(); andTheName.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            andTheName.prepareAsync();
+            andTheName.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     Log.d(TAG, "onPrepared:1 ");
@@ -52,7 +53,8 @@ public class RxSucks {
                         name.setVolume(1, 1);
                         name.setAudioStreamType(AudioManager.STREAM_MUSIC);
                         name.setLooping(false);
-                        name.prepareAsync();  name.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        name.prepareAsync();
+                        name.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
 
@@ -62,7 +64,8 @@ public class RxSucks {
                                 trumpets.setVolume(1, 1);
                                 trumpets.setAudioStreamType(AudioManager.STREAM_MUSIC);
                                 trumpets.setLooping(false);
-                                trumpets.prepareAsync();  trumpets.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                trumpets.prepareAsync();
+                                trumpets.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
                                         Log.d(TAG, "onPrepared: 3");
@@ -74,13 +77,12 @@ public class RxSucks {
 
 
                     } catch (Throwable x) {
-                        Log.d(TAG, "onPrepared: "+x);
+                        Log.d(TAG, "onPrepared: " + x);
                     }
 
 
                 }
             });
-
 
 
         } catch (Throwable a) {
@@ -95,7 +97,7 @@ public class RxSucks {
             andTheName.setVolume(1, 1);
             andTheName.setAudioStreamType(AudioManager.STREAM_MUSIC);
             andTheName.setLooping(false);
-            andTheName.prepareAsync();
+
             andTheName.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -108,26 +110,33 @@ public class RxSucks {
         }
     }
 
-    public void playAll() {
-        andTheName.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                name.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        trumpets.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                Log.d(TAG, "onCompletion: ");
-                            }
-                        });
-                        trumpets.start();
-                    }
-                });
-                name.start();
-            }
-        });
-        andTheName.start();
+    public void playAll(Context c) {
+
+        try {
+            new Chain().chain(c, getFile("xxxxx"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "playAll: ", e);
+        }
+//        andTheName.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                name.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        trumpets.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                            @Override
+//                            public void onCompletion(MediaPlayer mp) {
+//                                Log.d(TAG, "onCompletion: ");
+//                            }
+//                        });
+//                        trumpets.start();
+//                    }
+//                });
+//                name.start();
+//            }
+//        });
+//        andTheName.start();
     }
 
     private void prepareSecond(final Context context, final Callback callback, String fileName) {
@@ -137,7 +146,7 @@ public class RxSucks {
             name.setVolume(1, 1);
             name.setAudioStreamType(AudioManager.STREAM_MUSIC);
             name.setLooping(false);
-            name.prepareAsync();
+
             name.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -156,7 +165,7 @@ public class RxSucks {
             trumpets.setVolume(1, 1);
             trumpets.setAudioStreamType(AudioManager.STREAM_MUSIC);
             trumpets.setLooping(false);
-            trumpets.prepareAsync();
+
             trumpets.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {

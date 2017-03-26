@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val TAG = MainActivity.javaClass.simpleName
     }
 
-    var playDisposable: Disposable? = null;
+    var playDisposable: Disposable? = null
 
     val rxPermissions  by lazy { RxPermissions(MainActivity@ this) }
 
@@ -76,8 +76,8 @@ class MainActivity : AppCompatActivity() {
 
         play.setOnClickListener {
 
-            Toast.makeText(MainActivity@ this, "preparing", Toast.LENGTH_LONG).show()
-            sucks.playAll()
+            Toast.makeText(MainActivity@ this, "play", Toast.LENGTH_LONG).show()
+            sucks.playAll(MainActivity@ this)
         }
 
     }
